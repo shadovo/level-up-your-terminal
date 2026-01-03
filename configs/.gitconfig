@@ -1,0 +1,40 @@
+[color]
+	ui = true
+	status = true
+[color "status"]
+	added = green
+	changed = yellow
+	untracked = cyan
+[alias]
+	lg = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%ad%Creset %C(white)%s%Creset %C(bold yellow)%d%Creset %C(bold blue)<%an>%Creset' --date=short
+	hist = log --graph --full-history --all --pretty=format:'%Cred%h%Creset %C(yellow)%ad%Creset %C(white)%s%Creset %C(bold yellow)%d%Creset %C(bold blue)<%an>%Creset' --date=short
+	sl = !GIT_CURRENT_BRANCH=$(git name-rev --name-only HEAD) && git shortlog origin/master..$GIT_CURRENT_BRANCH
+	st = status
+	a = add -A
+	cm = commit -am 
+	unpushed = !GIT_CURRENT_BRANCH=$(git name-rev --name-only HEAD) && git log origin/$GIT_CURRENT_BRANCH..$GIT_CURRENT_BRANCH --one\
+line
+	ls = for-each-ref --sort=-committerdate refs/heads/ --count=10 --format='%(color:yellow)%(committerdate:relative)%(color:reset) %09 %(color:reset)%(if)%(HEAD)%(then)%(color:green)%(end) %(HEAD) %(refname:short)'
+[push]
+	default = simple
+[core]
+	excludesFile = ~/.gitignore_global
+	pager = delta
+[interactive]
+    diffFilter = delta --color-only
+[pager]
+	delta = delta
+[merge]
+	tool = opendiff
+	conflictstyle = diff3
+[pull]
+	rebase = false
+[init]
+	defaultBranch = main
+[delta]
+	navigate = true
+	line-numbers = true
+	hyperlinks = true
+	true-color = always
+	syntax-theme = Dracula
+	tabs = 2

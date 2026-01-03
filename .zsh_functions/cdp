@@ -1,0 +1,21 @@
+# [cd] to [p]rojects
+# This function is similar to cdc, but it doesn't open the project in VS Code.
+#
+# Dependencies:
+# - fzf
+#
+# Usage:
+#
+# ```bash
+# cdp
+# ```
+#
+
+function cdp {
+  local projects_path="$HOME/git"
+  local escaped_home=${HOME//\//\\/}
+  local selected_path=$(find "$projects_path" -mindepth 0 -maxdepth 3 -type d -name .git -prune -exec dirname {} \; | sed "s/$escaped_home/~/g" | fzf)
+  if [[ -n "$selected_path" ]]; then
+    cd "$selected_path"
+  fi
+}
