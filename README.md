@@ -10,8 +10,8 @@ Over the past year, I’ve explored various tools, plugins, and configurations t
   - [Homebrew – Install anything](#homebrew)  
   - [Nerd Fonts – Because icons in texts are cool](#nerd-fonts)  
   - [Starship Prompt – The oh-my-zsh alternative](#starship-prompt)  
-  - [ZSH Syntax Highlighting](#zsh-syntax-highlighting)  
   - [ZSH Auto Suggestions](#zsh-auto-suggestions)  
+  - [ZSH Syntax Highlighting](#zsh-syntax-highlighting)  
   - [Tldr – Like `man` but only the good parts](#tldr)  
   - [Bat – Like `cat` but understands code](#bat)  
   - [Fd – Like `find` but fast](#fd)  
@@ -40,7 +40,7 @@ Over the past year, I’ve explored various tools, plugins, and configurations t
 
 Ghostty is a new, lightweight, and superfast GPU-accelerated terminal by Mitchell Hashimoto (HashiCorp, Terraform). It features an easy-to-manage config file and a native UI across platforms. 
 
-The main downside is that it currently lacks a built-in output search, but this feature is in progress! github.com/ghostty-org/ghostty/issues/189 
+The main downside is that it currently lacks a built-in output search, but this feature is in progress! [github.com/ghostty-org/ghostty/issues/189](https://github.com/ghostty-org/ghostty/issues/189) 
 
       
 ![divider](./docs/images/divider-space-op.png)   
@@ -735,9 +735,9 @@ See the [Vim Configuration](./vim-configuration.md) file for details.
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## Great built in tools
+## Great built-in tools
 
-Here is a list of other built in tools that can be really useful. 
+Here is a list of other built-in tools that can be really useful. 
 Check them out with the `tldr` command to learn more about each. 
 
 ### File Processing:

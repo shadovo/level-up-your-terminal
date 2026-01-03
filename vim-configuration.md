@@ -29,7 +29,7 @@ For the full file see [configs/.vimrc](./configs/.vimrc).
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Syntax Highlighting](#syntax-highlighting)
+## Syntax Highlighting
 Enabling syntax highlighting makes it easier to read and navigate code by colorizing different elements, such as keywords, comments, and strings.
 
 ### Explanation:
@@ -45,7 +45,7 @@ syntax on  " Highlights syntax based on file type (e.g., keywords, comments, str
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [File Type Detection and Plugins](#file-type-detection-and-plugins)
+## File Type Detection and Plugins
 This section ensures that Vim automatically detects the type of file you are editing and applies relevant plugins and settings.
 
 ### Explanation:
@@ -65,7 +65,7 @@ filetype indent on   " Enable file type-specific indentation rules
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Color Scheme](#color-scheme)
+## Color Scheme
 Setting a color scheme allows you to customize the appearance of Vim, enhancing readability and aesthetics.
 
 ### Explanation:
@@ -81,7 +81,7 @@ colorscheme dracula  " Provides a dark, modern aesthetic with high contrast
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Leader Key](#leader-key)
+## Leader Key
 The leader key is a custom keybinding that makes it easier to create complex keymaps.
 
 ### Explanation:
@@ -97,7 +97,7 @@ let mapleader=" "    " Leader key simplifies custom key bindings
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Mouse Support](#mouse-support)
+## Mouse Support
 Enabling mouse support allows you to interact with Vim using the mouse for tasks like scrolling, resizing, and selecting text.
 
 ### Explanation:
@@ -113,7 +113,7 @@ set mouse=a          " Allows mouse clicks for selection, scrolling, resizing
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Vi Compatibility](#vi-compatibility)
+## Vi Compatibility
 Disabling Vi compatibility allows Vim to use more modern features that are not available in traditional Vi.
 
 ### Explanation:
@@ -129,7 +129,7 @@ set nocompatible     " Enables modern Vim features, improving functionality
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Backspace Behavior](#backspace-behavior)
+## Backspace Behavior
 This configuration modifies how the backspace key behaves in different situations, improving the editing experience.
 
 ### Explanation:
@@ -145,7 +145,7 @@ set backspace=indent,eol,start " Allows backspacing over indentation, line break
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Line Numbers](#line-numbers)
+## Line Numbers
 Showing line numbers helps you navigate the file more easily, especially when working with larger files.
 
 ### Explanation:
@@ -163,7 +163,7 @@ set relativenumber   " Displays relative numbers for quick line movements (e.g.,
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Cursorline](#cursorline)
+## Cursorline
 Highlighting the current line improves the visibility of the cursor’s location.
 
 ### Explanation:
@@ -179,7 +179,7 @@ set cursorline       " Improves visibility of the current editing location
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Search Behavior](#search-behavior)
+## Search Behavior
 These settings optimize search behavior, making it easier to find and navigate search results.
 
 ### Explanation:
@@ -201,7 +201,7 @@ set hlsearch         " Highlights all matches for the current search
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [History and Command-line Completion](#history-and-command-line-completion)
+## History and Command-line Completion
 These settings configure Vim’s command-line behavior, including history and autocompletion.
 
 ### Explanation:
@@ -221,7 +221,7 @@ set wildmode=list:longest " Completes the longest match and lists all options
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Status Line](#status-line)
+## Status Line
 This section configures the status line to display useful information about the current file and session.
 
 ### Explanation:
@@ -242,7 +242,7 @@ set laststatus=2     " Always display the status line
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Encoding](#encoding)
+## Encoding
 These settings ensure that files are opened and saved with UTF-8 encoding, which supports a wide range of characters.
 
 ### Explanation:
@@ -260,7 +260,7 @@ set fileencoding=utf-8   " Saves files using UTF-8 encoding
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Undo History Persistence](#undo-history-persistence)
+## Undo History Persistence
 This configuration ensures that undo history is saved across Vim sessions, allowing you to undo changes even after reopening a file.
 
 ### Explanation:
@@ -278,7 +278,7 @@ set undofile                " Saves undo history for each file, even across sess
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Clipboard Integration](#clipboard-integration)
+## Clipboard Integration
 Integrating the system clipboard allows you to easily yank (copy) and paste between Vim and other applications.
 
 ### Explanation:
@@ -294,7 +294,7 @@ set clipboard=unnamed  " Uses the system clipboard by default, improving integra
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Indentation and Tab Settings](#indentation-and-tab-settings)
+## Indentation and Tab Settings
 These settings ensure consistent and predictable indentation, which is essential for coding standards.
 
 ### Explanation:
@@ -318,7 +318,7 @@ set smartindent    " Adds intelligent indentation based on code structure
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Completion Menu](#completion-menu)
+## Completion Menu
 This section improves the behavior of the autocompletion menu, making it more user-friendly.
 
 ### Explanation:
@@ -334,7 +334,7 @@ set completeopt=menu,menuone,noselect  " Shows a menu for completion but doesn�
 ![divider](./docs/images/divider-space-op.png)   
    
 
-## [Redraw Behavior](#redraw-behavior)
+## Redraw Behavior
 These settings help improve performance, especially when working with large files.
 
 ### Explanation:
