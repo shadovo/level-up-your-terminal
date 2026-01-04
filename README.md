@@ -10,8 +10,8 @@ Over the past year, I’ve explored various tools, plugins, and configurations t
   - [Homebrew – Install anything](#homebrew)  
   - [Nerd Fonts – Because icons in texts are cool](#nerd-fonts)  
   - [Starship Prompt – The oh-my-zsh alternative](#starship-prompt)  
-  - [ZSH Syntax Highlighting](#zsh-syntax-highlighting)  
   - [ZSH Auto Suggestions](#zsh-auto-suggestions)  
+  - [ZSH Syntax Highlighting](#zsh-syntax-highlighting)  
   - [Tldr – Like `man` but only the good parts](#tldr)  
   - [Bat – Like `cat` but understands code](#bat)  
   - [Fd – Like `find` but fast](#fd)  
@@ -21,11 +21,11 @@ Over the past year, I’ve explored various tools, plugins, and configurations t
   - [Delta – Like `diff` but readable](#delta)   
 - [Settings](#settings)  
 - [Scripts](#scripts)  
-  - [`cdp` – cd to projects](#cdp--cd-to-projects)  
-  - [`cdc` – cd to projects and open in VS Code](#cdc--cd-to-projects-and-open-in-vs-code)  
-  - [`npmr` – npm run](#npmr--npm-run)  
-  - [`gbf` – git branch find](#gbf--git-branch-find)  
-  - [`glg` – git log graph](#glg--git-log-graph)  
+  - [`cdp` – cd to projects](#cdp-–-%5Bcd%5D-to-%5Bp%5Drojects)  
+  - [`cde` – cd to projects and open in editor](#cde-–-%5Bcd%5D-to-projects-and-open-in-your-%5Be%5Dditor)  
+  - [`npmr` – npm run](#npmr-–-%5Bnpm%5D-%5Br%5Dun)  
+  - [`gbf` – git branch find](#gbf-–-%5Bg%5Dit-%5Bb%5Dranch-%5Bf%5Dind)  
+  - [`glg` – git log graph](#glg-–-%5Bg%5Dit-%5Bl%5Dog-%5Bg%5Draph)  
   - [`myip` – show your IP address](#myip)  
   - [`compare_urls` – compare JSON output from URLs](#compare_urls)  
 - [Git config](#git-config)  
@@ -540,7 +540,7 @@ Available examples
 
 | Function | Description | 
 | --- | --- |
-| cdc | Fuzzy find and git projects in `~/git` and open the project in Visual Studio Code |
+| cde | Fuzzy find and git projects in `~/git` and open the project in your $VISUAL > $EDITOR > vi |
 | cdp | Fuzzy find and git projects in `~/git` and cd into it |
 | compare_urls | Compare the JSON output of two different URLs |
 | gbf | Show all local git branches and checkout the selected one |
@@ -572,19 +572,26 @@ cdp
       
 ![divider](./docs/images/divider-space-op.png)   
 
-### `cdc` – [cd] to projects and open in VS [c]ode
+### `cde` – [cd] to projects and open in your [e]ditor
 
-Very similar to `cdp`. Fuzzy find folders with a git project and open them in VS Code.
+Very similar to `cdp`. Fuzzy find folders with a git project and open them in $VISUAL > $EDITOR > vi.
 
-Function definition see [.zsh_functions/cdc](./.zsh_functions/cdc).
+Function definition see [.zsh_functions/cde](./.zsh_functions/cde).
 
 Dependencies:
 - fzf
 
 Usage:
 
+Set `$VISUAL` or `$EDITOR` to open in your editor of choice or it will fallback to `vi`.
+
+To set your editor env you could run the following to set it to VS Code.
 ```bash
-cdc
+echo "export VISUAL=\"code\"" >> ~/.zshrc
+```
+
+```bash
+cde
 ```
 
       
