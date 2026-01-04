@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # [g]it [b]ranch [f]ind – Show all git branches and checkout the selected one
 # 
 # Dependencies:

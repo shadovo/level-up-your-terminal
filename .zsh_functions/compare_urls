@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # Compare the JSON output of two different URLs
 #
 # This function is useful when you want to compare the output of two different URLs. It fetches the JSON output from both URLs, processes it with `jq` (if provided), and then compares the results using `delta`.

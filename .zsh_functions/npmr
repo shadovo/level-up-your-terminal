@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # Fuzzy find npm scripts
 #
 # This will list all the npm scripts in the current project and allow you to fuzzy find and run them.

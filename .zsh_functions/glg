@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # Git log with a nice preview of the diff from the commit
 # 
 # [g]it [l]o[g] 
@@ -16,7 +18,7 @@
 
 function glg {
   git log --graph --color=always \
-      --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+      --format="%C(auto)%h%d %s %C(blue)%C(bold)%cr" "$@" |
   fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort --preview \
          'f() { set -- $(echo -- "$@" | grep -o "[a-f0-9]\{7\}"); [ $# -eq 0 ] || git show --color=always $1 ; }; f {}' \
       --header "enter to view, ctrl-o to checkout" \

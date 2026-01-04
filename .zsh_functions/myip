@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # Print your local IP address
 #
 # This function is useful when you want to quickly find out what your local IP address is. It uses `ifconfig` to get the IP addresses of all network interfaces, filters out the loopback address, and then prints the first IP address it finds.

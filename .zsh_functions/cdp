@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # [cd] to [p]rojects
 # This function is similar to cdc, but it doesn't open the project in VS Code.
 #
@@ -13,8 +15,19 @@
 
 function cdp {
   local projects_path="$HOME/git"
-  local escaped_home=${HOME//\//\\/}
-  local selected_path=$(find "$projects_path" -mindepth 0 -maxdepth 3 -type d -name .git -prune -exec dirname {} \; | sed "s/$escaped_home/~/g" | fzf)
+  local selected_path
+  selected_path=$(find "$projects_path" -mindepth 0 -maxdepth 3 -type d -name .git -prune -exec dirname {} \; \
+    | awk -v home="$HOME" '{
+      display = $0
+      sub("^" home, "~", display)
+      print display ":" $0
+    }' \
+    | fzf \
+      --delimiter=':' \
+      --with-nth='{1}' \
+      --accept-nth=2 \
+    )
+
   if [[ -n "$selected_path" ]]; then
     cd "$selected_path"
   fi
