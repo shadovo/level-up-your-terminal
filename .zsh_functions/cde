@@ -14,26 +14,29 @@
 #
 
 function cde {
-  local projects_path="$HOME/git"
-  local selected_path
-  local editor=${VISUAL:-$EDITOR}
-  if ! command -v "$editor" >/dev/null 2>&1; then
-    editor="vi"
-  fi
-  selected_path=$(find "$projects_path" -mindepth 0 -maxdepth 3 -type d -name .git -prune -exec dirname {} \; \
-    | awk -v home="$HOME" '{
+	local projects_path="$HOME/git"
+	local selected_path
+	local editor=${VISUAL:-$EDITOR}
+	if ! command -v "$editor" >/dev/null 2>&1; then
+		editor="vi"
+	fi
+	selected_path=$(
+		find "$projects_path" -mindepth 0 -maxdepth 3 -type d -name .git -prune -exec dirname {} \; |
+			awk -v home="$HOME" '{
       display = $0
       sub("^" home, "~", display)
       print display ":" $0
-    }' \
-    | fzf \
-      --delimiter=':' \
-      --with-nth='{1}' \
-      --accept-nth=2 \
-    )
+    }' |
+			fzf \
+				--delimiter=':' \
+				--with-nth='{1}' \
+				--accept-nth=2
+	)
 
-  if [[ -n "$selected_path" ]]; then
-    cd "$selected_path"
-    "$editor" .
-  fi
+	if [[ -n "$selected_path" ]]; then
+		cd "$selected_path"
+		local current_dir_name=$(basename "$PWD")
+		echo -ne "\e]2;($editor) $current_dir_name\a"
+		"$editor" .
+	fi
 }

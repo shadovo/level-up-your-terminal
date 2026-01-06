@@ -3,7 +3,7 @@
 # Compare the JSON output of two different URLs
 #
 # This function is useful when you want to compare the output of two different URLs. It fetches the JSON output from both URLs, processes it with `jq` (if provided), and then compares the results using `delta`.
-# 
+#
 # Dependencies:
 # - curl
 # - jq
@@ -12,51 +12,47 @@
 # Usage: compare_urls <URL1> <URL2> [<jq_query1>] [<jq_query2>]
 #
 # Examples:
-# 
-# Compare the full output of my local response with the response from production. 
-# 
+#
+# Compare the full output of my local response with the response from production.
+#
 # ```bash
 # compare_urls http://localhost:3000/my-cool-api https://example.com/my-cool-api
 # ```
-# 
+#
 # If you want to narrow the scope and only compare part of the output you can give it a `jq` path to the part of the output you would like to compare. The provided path will be used on both responses.
-# 
+#
 # ```bash
 # compare_urls http://localhost:3000/my-cool-api https://example.com/my-cool-api '.items'
 # ```
-# 
-# If the data has moved from one place in the data structure to an other you can still compare it by providing two `jq` paths. The first path will be applied to the first URLs response and the second will be applied to the second URLs response. 
-# 
+#
+# If the data has moved from one place in the data structure to an other you can still compare it by providing two `jq` paths. The first path will be applied to the first URLs response and the second will be applied to the second URLs response.
+#
 # ```bash
 # compare_urls http://localhost:3000/my-cool-api https://example.com/my-cool-api '.items' '.collection'
 # ```
 
 function compare_urls {
-  if [ "$#" -lt 2 ] || [ "$#" -gt 4 ]; then
-    echo "Usage: compare_urls <URL1> <URL2> [<jq_query1>] [<jq_query2>]"
-    return 1
-  fi
+	if [ "$#" -lt 2 ] || [ "$#" -gt 4 ]; then
+		echo "Usage: compare_urls <URL1> <URL2> [<jq_query1>] [<jq_query2>]"
+		return 1
+	fi
 
-  local url1="$1"
-  local url2="$2"
-  local jq_query1="${3:-.}"       # Default to '.' (no filtering) if jq_query1 is not provided
-  local jq_query2="${4:-$jq_query1}" # Default to jq_query1 if jq_query2 is not provided
+	local url1="$1"
+	local url2="$2"
+	local jq_query1="${3:-.}"
+	local jq_query2="${4:-$jq_query1}"
 
-  # Fetch and process the JSON from URL1
-  curl -s -f -L --retry 3 "$url1" | jq --sort-keys -e "$jq_query1" > /tmp/result1.json || {
-    echo "Failed to fetch or parse JSON from first URL: $url1"
-    return 1
-  }
+	curl -s -f -L --retry 3 "$url1" | jq --sort-keys -e "$jq_query1" >/tmp/result1.json || {
+		echo "Failed to fetch or parse JSON from first URL: $url1"
+		return 1
+	}
 
-  # Fetch and process the JSON from URL2
-  curl -s -f -L --retry 3 "$url2" | jq --sort-keys -e "$jq_query2" > /tmp/result2.json || {
-    echo "Failed to fetch or parse JSON from second URL: $url2"
-    return 1
-  }
+	curl -s -f -L --retry 3 "$url2" | jq --sort-keys -e "$jq_query2" >/tmp/result2.json || {
+		echo "Failed to fetch or parse JSON from second URL: $url2"
+		return 1
+	}
 
-  # Compare the results using delta
-  delta --side-by-side --paging=always --line-numbers /tmp/result1.json /tmp/result2.json
+	delta --side-by-side --paging=always --line-numbers /tmp/result1.json /tmp/result2.json
 
-  # Clean up temporary files
-  rm /tmp/result1.json /tmp/result2.json
+	rm /tmp/result1.json /tmp/result2.json
 }

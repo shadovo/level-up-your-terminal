@@ -14,21 +14,22 @@
 #
 
 function cdp {
-  local projects_path="$HOME/git"
-  local selected_path
-  selected_path=$(find "$projects_path" -mindepth 0 -maxdepth 3 -type d -name .git -prune -exec dirname {} \; \
-    | awk -v home="$HOME" '{
+	local projects_path="$HOME/git"
+	local selected_path
+	selected_path=$(
+		find "$projects_path" -mindepth 0 -maxdepth 3 -type d -name .git -prune -exec dirname {} \; |
+			awk -v home="$HOME" '{
       display = $0
       sub("^" home, "~", display)
       print display ":" $0
-    }' \
-    | fzf \
-      --delimiter=':' \
-      --with-nth='{1}' \
-      --accept-nth=2 \
-    )
+    }' |
+			fzf \
+				--delimiter=':' \
+				--with-nth='{1}' \
+				--accept-nth=2
+	)
 
-  if [[ -n "$selected_path" ]]; then
-    cd "$selected_path"
-  fi
+	if [[ -n "$selected_path" ]]; then
+		cd "$selected_path"
+	fi
 }

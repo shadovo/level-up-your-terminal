@@ -15,10 +15,16 @@
 # ```
 
 function npmr {
-    jq -r \
-        '.scripts | to_entries[] | "\(.key)\t\(.value)"' package.json | \
-    fzf --with-nth=1 \
-        --preview "echo {} | cut -f2" | \
-    cut -f1 | \
-    xargs -r npm run
+	local selected_script=$(
+		jq -r '.scripts | to_entries[] | "\(.key)\t\(.value)"' package.json |
+			fzf --with-nth=1 \
+				--accept-nth=1 \
+				--preview "echo {} | cut -f2"
+	)
+	if [[ -z "$selected_script" ]]; then
+		return 0
+	fi
+	local current_dir_name=$(basename "$PWD")
+	echo -ne "\e]2;$current_dir_name: npm run $selected_script \a"
+	echo "$selected_script" | xargs -r npm run
 }

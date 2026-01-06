@@ -1,9 +1,10 @@
 #!/usr/bin/env zsh
 
 # [g]it [b]ranch [f]ind – Show all git branches and checkout the selected one
-# 
+#
 # Dependencies:
 # - fzf
+# - git
 #
 # Usage:
 #
@@ -13,17 +14,19 @@
 #
 
 function gbf {
-  git_log_format="git log --graph --pretty=format:'%C(yellow)%ad%Creset %C(white)%s%Creset %C(bold yellow)%d%Creset %C(bold blue)<%an>%Cr    eset' --color=always --date=short"
-  git for-each-ref \
-    --color=always  \
-    --sort=-committerdate refs/heads/ \
-    --format='%(color:yellow)%(committerdate:relative)%(color:reset) %09 %(color:reset)%(if)%(HEAD)%(then)%(color:green)%(end) %(HEAD) %(refname:short)' \
-  | fzf \
-    --ansi \
-    --header "Git branches | ctrl-f preview down, ctrl-b preview up" \
-    --bind "ctrl-f:preview-page-down,ctrl-b:preview-page-up" \
-    --bind "ctrl-o:execute:$eval($git_log_format)" \
-    --preview="$git_log_format -50 \$(echo {} | awk '{print \$NF}')" \
-  | awk '{print $NF}' \
-  | xargs git checkout
+	local git_log_format="git log --graph --pretty=format:'%C(yellow)%ad%Creset %C(white)%s%Creset %C(bold yellow)%d%Creset %C(bold blue)<%an>%Creset' --color=always --date=short"
+	local current_dir_name=$(basename "$PWD")
+	echo -ne "\e]2;$current_dir_name: git branches \a"
+	git for-each-ref \
+		--color=always \
+		--sort=-committerdate refs/heads/ \
+		--format='%(color:yellow)%(committerdate:relative)%(color:reset) %09 %(color:reset)%(if)%(HEAD)%(then)%(color:green)%(end) %(HEAD) %(refname:short)' |
+		fzf \
+			--ansi \
+			--header "$current_dir_name git branches | enter checkout branch, ctrl-o open preview, ctrl-f preview down, ctrl-b preview up" \
+			--bind "ctrl-f:preview-page-down,ctrl-b:preview-page-up" \
+			--bind "ctrl-o:execute:$eval($git_log_format)" \
+			--preview="$git_log_format -50 \$(echo {} | awk '{print \$NF}')" \
+			--accept-nth="-1" |
+		xargs git checkout
 }
