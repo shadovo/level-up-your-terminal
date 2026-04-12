@@ -1,10 +1,7 @@
 # ─── Homebrew ─────────────────────────────────────────────────────────────────
 # shellenv sets HOMEBREW_PREFIX, HOMEBREW_CELLAR, HOMEBREW_REPOSITORY and
 # prepends Homebrew's bin/sbin to PATH, MANPATH, and INFOPATH.
-# We capture HOMEBREW_PREFIX once here so we never need to spawn $(brew --prefix)
-# as a subprocess again — every $BREW_PREFIX reference below is just a variable lookup.
 eval "$(/opt/homebrew/bin/brew shellenv)"
-BREW_PREFIX="$HOMEBREW_PREFIX"
 
 # ─── Locale ───────────────────────────────────────────────────────────────────
 export LANG=en_US.UTF-8
@@ -12,7 +9,7 @@ export LC_ALL=en_US.UTF-8
 
 # ─── Completions ──────────────────────────────────────────────────────────────
 # Docs: https://zsh.sourceforge.io/Doc/Release/Completion-System.html
-fpath=("$BREW_PREFIX/share/zsh/site-functions" ~/.zsh_functions $fpath)
+fpath=("$HOMEBREW_PREFIX/share/zsh/site-functions" $fpath)
 autoload -Uz compinit && compinit
 # zstyle controls completion behaviour. Docs: https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Control-Functions
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' # case-insensitive matching
@@ -22,8 +19,8 @@ zstyle ':completion:*' menu select                                           # a
 eval "$(starship init zsh)"
 
 # ─── Plugins ──────────────────────────────────────────────────────────────────
-source "$BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-source "$BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # ─── fzf ──────────────────────────────────────────────────────────────────────
 source <(fzf --zsh)
@@ -47,8 +44,8 @@ export FZF_ALT_C_OPTS="
 
 # ─── nvm ──────────────────────────────────────────────────────────────────────
 export NVM_DIR="$HOME/.nvm"
-[ -s "$BREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$BREW_PREFIX/opt/nvm/nvm.sh"
-[ -s "$BREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$BREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
+[ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+[ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
 
 # ─── pnpm ─────────────────────────────────────────────────────────────────────
 export PNPM_HOME="$HOME/Library/pnpm"
@@ -64,7 +61,7 @@ case ":$PATH:" in
 esac
 
 # ─── Functions ────────────────────────────────────────────────────────────────────
-autoload -Uz ~/.zsh_functions/*
+[[ -d ~/.zsh_functions ]] && autoload -Uz ~/.zsh_functions/*
 
 # ─── Editors ──────────────────────────────────────────────────────────────────
 export VISUAL="code"
