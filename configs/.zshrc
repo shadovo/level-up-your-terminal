@@ -3,7 +3,13 @@
 # prepends Homebrew's bin/sbin to PATH, MANPATH, and INFOPATH.
 # We capture HOMEBREW_PREFIX once here so we never need to spawn $(brew --prefix)
 # as a subprocess again — every $BREW_PREFIX reference below is just a variable lookup.
-eval "$(/opt/homebrew/bin/brew shellenv)"
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+elif command -v brew &>/dev/null; then
+  eval "$(brew shellenv)"
+fi
 BREW_PREFIX="$HOMEBREW_PREFIX"
 
 # ─── Locale ───────────────────────────────────────────────────────────────────
