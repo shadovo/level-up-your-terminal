@@ -8,7 +8,7 @@
 [alias]
 	lg = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%ad%Creset %C(white)%s%Creset %C(bold yellow)%d%Creset %C(bold blue)<%an>%Creset' --date=short
 	hist = log --graph --full-history --all --pretty=format:'%Cred%h%Creset %C(yellow)%ad%Creset %C(white)%s%Creset %C(bold yellow)%d%Creset %C(bold blue)<%an>%Creset' --date=short
-	sl = !GIT_CURRENT_BRANCH=$(git name-rev --name-only HEAD) && git shortlog origin/master..$GIT_CURRENT_BRANCH
+	sl = !GIT_CURRENT_BRANCH=$(git name-rev --name-only HEAD) && git shortlog origin/main..$GIT_CURRENT_BRANCH
 	st = status
 	a = add -A
 	cm = commit -am 
@@ -29,6 +29,8 @@ line
 	conflictstyle = diff3
 [pull]
 	rebase = false
+[diff]
+	colorMoved = default
 [init]
 	defaultBranch = main
 [delta]
@@ -38,3 +40,13 @@ line
 	true-color = always
 	syntax-theme = Dracula
 	tabs = 2
+
+# ─── SSH commit signing ───────────────────────────────────────────────────────
+# Requires an SSH key: ssh-keygen -t ed25519 -C "your@email.com"
+# The install.sh script handles key generation and allowed_signers setup.
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers
+[commit]
+	gpgsign = true
