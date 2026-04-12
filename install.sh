@@ -161,7 +161,9 @@ else
   echo ""
   echo "  Add this public key to GitHub (Settings → SSH and GPG keys):"
   cat "$HOME/.ssh/id_ed25519.pub"
+  pbcopy < "$HOME/.ssh/id_ed25519.pub"
   echo ""
+  echo "  (Public key copied to clipboard)"
   read -r -p "  Press Enter once you've added the key to GitHub..."
 fi
 
