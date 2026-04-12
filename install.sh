@@ -56,6 +56,7 @@ fi
 # Install all symlinks before running brew formulae so that any tool that writes
 # to shell config files works against the correct symlinked files from the start.
 
+# ─── .zshrc ───────────────────────────────────────────────────────────────────
 print_step "Installing .zshrc..."
 if [[ -L "$HOME/.zshrc" ]]; then
   echo "  Symlink already exists: ~/.zshrc"
@@ -67,6 +68,7 @@ else
   echo "  Symlinked to ~/.zshrc"
 fi
 
+# ─── zsh_functions ────────────────────────────────────────────────────────────
 print_step "Installing zsh functions..."
 if [[ -L "$HOME/.zsh_functions" ]]; then
   echo "  Symlink already exists: ~/.zsh_functions"
@@ -78,6 +80,7 @@ else
   echo "  Symlinked to ~/.zsh_functions"
 fi
 
+# ─── Git config ───────────────────────────────────────────────────────────────
 print_step "Installing git config..."
 if [[ -L "$HOME/.gitconfig" ]]; then
   echo "  Symlink already exists: ~/.gitconfig"
@@ -89,6 +92,7 @@ else
   echo "  Symlinked to ~/.gitconfig"
 fi
 
+# ─── Vim config ───────────────────────────────────────────────────────────────
 print_step "Installing vim config..."
 if [[ -L "$HOME/.vimrc" ]]; then
   echo "  Symlink already exists: ~/.vimrc"
@@ -103,6 +107,7 @@ fi
 # Create vim undo directory (required by .vimrc undofile setting)
 mkdir -p "$HOME/.vim/undodir"
 
+# ─── Ghostty config ───────────────────────────────────────────────────────────
 print_step "Installing Ghostty config..."
 GHOSTTY_CONFIG_DIR="$HOME/.config/ghostty"
 mkdir -p "$GHOSTTY_CONFIG_DIR"
@@ -130,9 +135,6 @@ else
   echo "  Symlinked to $STARSHIP_CONFIG_DIR/starship.toml"
 fi
 
-# ─── nvm dir ──────────────────────────────────────────────────────────────────
-mkdir -p "$HOME/.nvm"
-
 # ─── Git user details ─────────────────────────────────────────────────────────
 print_step "Setting git user details..."
 if git config --global user.name &>/dev/null && git config --global user.email &>/dev/null; then
@@ -146,17 +148,19 @@ else
 fi
 
 # ─── SSH key + commit signing ─────────────────────────────────────────────────
+# Resolve the email once here so all subsequent steps (key generation,
+# allowed_signers) use the same value without re-querying or re-prompting.
+if [[ -z "$git_email" ]]; then
+  git_email=$(git config --global user.email 2>/dev/null || true)
+fi
+if [[ -z "$git_email" ]]; then
+  read -r -p "  Enter your email for the SSH key: " git_email
+fi
+
 print_step "Setting up SSH key for commit signing..."
 if [[ -f "$HOME/.ssh/id_ed25519" ]]; then
   echo "  SSH key already exists at ~/.ssh/id_ed25519 – skipping generation."
 else
-  # Use the configured email for the key comment, falling back to a prompt
-  if [[ -z "$git_email" ]]; then
-    git_email=$(git config --global user.email 2>/dev/null || true)
-  fi
-  if [[ -z "$git_email" ]]; then
-    read -r -p "  Enter your email for the SSH key: " git_email
-  fi
   ssh-keygen -t ed25519 -C "$git_email" -f "$HOME/.ssh/id_ed25519"
   echo ""
   echo "  Add this public key to GitHub (Settings → SSH and GPG keys):"
@@ -172,16 +176,16 @@ if [[ -f "$HOME/.ssh/id_ed25519.pub" ]]; then
   PUB_KEY=$(cat "$HOME/.ssh/id_ed25519.pub")
   ALLOWED_SIGNERS="$HOME/.ssh/allowed_signers"
   if ! grep -qF "$PUB_KEY" "$ALLOWED_SIGNERS" 2>/dev/null; then
-    if [[ -z "$git_email" ]]; then
-      git_email=$(git config --global user.email 2>/dev/null || true)
-    fi
     echo "$git_email namespaces=\"git\" $PUB_KEY" >> "$ALLOWED_SIGNERS"
     echo "  Added key to ~/.ssh/allowed_signers"
   else
     echo "  Key already in ~/.ssh/allowed_signers – skipping."
   fi
 
-  if [[ "$(git config --global gpg.format 2>/dev/null)" != "ssh" ]]; then
+  if [[ "$(git config --global gpg.format 2>/dev/null)" != "ssh" ]] || \
+     [[ "$(git config --global commit.gpgsign 2>/dev/null)" != "true" ]] || \
+     [[ -z "$(git config --global user.signingkey 2>/dev/null)" ]] || \
+     [[ -z "$(git config --global gpg.ssh.allowedSignersFile 2>/dev/null)" ]]; then
     git config --global gpg.format ssh
     git config --global gpg.ssh.allowedSignersFile "$HOME/.ssh/allowed_signers"
     git config --global user.signingkey "$HOME/.ssh/id_ed25519.pub"
@@ -216,6 +220,10 @@ brew install \
   nvm \
   pnpm \
   htop
+
+# ─── nvm dir ──────────────────────────────────────────────────────────────────
+# nvm expects $NVM_DIR to exist; create it here after nvm is installed via brew.
+mkdir -p "$HOME/.nvm"
 
 # ─── Done ─────────────────────────────────────────────────────────────────────
 echo ""
