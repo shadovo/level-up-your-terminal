@@ -489,7 +489,8 @@ To enable auto lazy-loading of scripts, follow these steps:
 3. Add the following to your `.zshrc` file.
 
 ```bash
-[[ -d ~/.zsh_functions ]] && autoload -Uz ~/.zsh_functions/*
+fpath=(~/.zsh_functions $fpath)
+autoload -Uz ~/.zsh_functions/*
 ```
 
 #### Example of script in .zsh_functions

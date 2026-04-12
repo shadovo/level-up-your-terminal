@@ -61,7 +61,8 @@ case ":$PATH:" in
 esac
 
 # ─── Functions ────────────────────────────────────────────────────────────────────
-[[ -d ~/.zsh_functions ]] && autoload -Uz ~/.zsh_functions/*
+fpath=(~/.zsh_functions $fpath)
+autoload -Uz ~/.zsh_functions/*
 
 # ─── Editors ──────────────────────────────────────────────────────────────────
 export VISUAL="code"
