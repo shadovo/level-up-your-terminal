@@ -16,7 +16,7 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' # case
 zstyle ':completion:*' menu select                                           # arrow-key navigable menu
 
 # ─── Prompt ───────────────────────────────────────────────────────────────────
-eval "$(starship init zsh 2>/dev/null)" 2>/dev/null || echo "Missing package: starship — run install.sh"
+command -v starship &>/dev/null && eval "$(starship init zsh)" || echo "Missing package: starship — run install.sh"
 
 # ─── Plugins ──────────────────────────────────────────────────────────────────
 source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" 2>/dev/null || echo "Missing package: zsh-autosuggestions — run install.sh"
