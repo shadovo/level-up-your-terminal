@@ -23,7 +23,7 @@ source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" 2>/d
 source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" 2>/dev/null || echo "Missing package: zsh-syntax-highlighting — run install.sh"
 
 # ─── fzf ──────────────────────────────────────────────────────────────────────
-source <(fzf --zsh 2>/dev/null) 2>/dev/null || echo "Missing package: fzf — run install.sh"
+command -v fzf &>/dev/null && source <(fzf --zsh) || echo "Missing package: fzf — run install.sh"
 
 export FZF_DEFAULT_OPTS='--height ~60% --layout reverse --border --color=16'
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
