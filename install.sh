@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Setup a new macOS machine for development
+# Setup a new MacOS machine for development
 # Run with: bash install.sh
 
 set -e
@@ -46,25 +46,10 @@ fi
 print_step "Installing Homebrew..."
 if ! command -v brew &>/dev/null; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 else
   echo "Already installed."
 fi
-
-# Initialize the Homebrew environment (sets HOMEBREW_PREFIX, updates PATH, etc.)
-# We can't rely on `brew` being on PATH after a fresh install, so we locate the
-# binary by checking both the Apple Silicon and Intel default locations.
-BREW_BIN="$(command -v brew 2>/dev/null || true)"
-if [[ -z "$BREW_BIN" ]]; then
-  if [[ -x /opt/homebrew/bin/brew ]]; then
-    BREW_BIN="/opt/homebrew/bin/brew"
-  elif [[ -x /usr/local/bin/brew ]]; then
-    BREW_BIN="/usr/local/bin/brew"
-  else
-    echo "Homebrew was not found after installation. Exiting."
-    exit 1
-  fi
-fi
-eval "$("$BREW_BIN" shellenv)"
 
 # ─── Nerd Font ────────────────────────────────────────────────────────────────
 print_step "Installing Geist Mono Nerd Font..."
