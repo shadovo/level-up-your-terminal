@@ -16,14 +16,14 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' # case
 zstyle ':completion:*' menu select                                           # arrow-key navigable menu
 
 # ─── Prompt ───────────────────────────────────────────────────────────────────
-command -v starship &>/dev/null && eval "$(starship init zsh)" || echo "Missing package: starship — run install.sh"
+eval "$(starship init zsh 2>/dev/null)"
 
 # ─── Plugins ──────────────────────────────────────────────────────────────────
-source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" 2>/dev/null || echo "Missing package: zsh-autosuggestions — run install.sh"
-source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" 2>/dev/null || echo "Missing package: zsh-syntax-highlighting — run install.sh"
+source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" 2>/dev/null
+source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" 2>/dev/null
 
 # ─── fzf ──────────────────────────────────────────────────────────────────────
-command -v fzf &>/dev/null && source <(fzf --zsh) || echo "Missing package: fzf — run install.sh"
+command -v fzf &>/dev/null && source <(fzf --zsh)
 
 export FZF_DEFAULT_OPTS='--height ~60% --layout reverse --border --color=16'
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
