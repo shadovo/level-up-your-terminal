@@ -490,6 +490,7 @@ To enable auto lazy-loading of scripts, follow these steps:
 
 ```bash
 fpath=(~/.zsh_functions $fpath)
+autoload -Uz ~/.zsh_functions/*
 ```
 
 #### Example of script in .zsh_functions

@@ -62,6 +62,7 @@ esac
 
 # ─── Functions ────────────────────────────────────────────────────────────────────
 fpath=(~/.zsh_functions $fpath)
+autoload -Uz ~/.zsh_functions/*
 
 # ─── Editors ──────────────────────────────────────────────────────────────────
 export VISUAL="code"
