@@ -61,7 +61,9 @@ case ":$PATH:" in
 esac
 
 # ─── Functions ────────────────────────────────────────────────────────────────────
-[[ -d ~/.zsh_functions ]] && autoload -Uz ~/.zsh_functions/*
+# fpath must include the directory so zsh can resolve functions by name on first call.
+# (*:t) strips the path prefix so autoload receives bare function names, not file paths.
+[[ -d ~/.zsh_functions ]] && fpath+=(~/.zsh_functions) && autoload -Uz ~/.zsh_functions/*(:t)
 
 # ─── Editors ──────────────────────────────────────────────────────────────────
 export VISUAL="code"
