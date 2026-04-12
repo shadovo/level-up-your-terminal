@@ -49,6 +49,7 @@ if ! command -v brew &>/dev/null; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 else
   echo "Already installed."
+  eval "$(brew shellenv)"
 fi
 
 # ─── Nerd Font ────────────────────────────────────────────────────────────────
@@ -148,6 +149,12 @@ if [[ -f "$HOME/.ssh/id_ed25519.pub" ]]; then
   else
     echo "  Key already in ~/.ssh/allowed_signers – skipping."
   fi
+
+  git config --global gpg.format ssh
+  git config --global gpg.ssh.allowedSignersFile "$HOME/.ssh/allowed_signers"
+  git config --global user.signingkey "$HOME/.ssh/id_ed25519.pub"
+  git config --global commit.gpgsign true
+  echo "  Configured git commit signing with SSH key"
 fi
 
 # ─── Vim config ────────────────────────────────────────────────────────────────

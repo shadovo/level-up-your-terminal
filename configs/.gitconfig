@@ -41,12 +41,3 @@ line
 	syntax-theme = Dracula
 	tabs = 2
 
-# ─── SSH commit signing ───────────────────────────────────────────────────────
-# Requires an SSH key: ssh-keygen -t ed25519 -C "your@email.com"
-# The install.sh script handles key generation and allowed_signers setup.
-[gpg]
-	format = ssh
-[gpg "ssh"]
-	allowedSignersFile = ~/.ssh/allowed_signers
-[commit]
-	gpgsign = true
