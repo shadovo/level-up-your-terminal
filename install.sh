@@ -148,6 +148,7 @@ else
 fi
 
 # ─── SSH key + commit signing ─────────────────────────────────────────────────
+print_step "Setting up SSH key for commit signing..."
 # Resolve the email once here so all subsequent steps (key generation,
 # allowed_signers) use the same value without re-querying or re-prompting.
 if [[ -z "$git_email" ]]; then
@@ -157,10 +158,10 @@ if [[ -z "$git_email" ]]; then
   read -r -p "  Enter your email for the SSH key: " git_email
 fi
 
-print_step "Setting up SSH key for commit signing..."
 if [[ -f "$HOME/.ssh/id_ed25519" ]]; then
   echo "  SSH key already exists at ~/.ssh/id_ed25519 – skipping generation."
 else
+  mkdir -p -m 700 "$HOME/.ssh"
   ssh-keygen -t ed25519 -C "$git_email" -f "$HOME/.ssh/id_ed25519"
   echo ""
   echo "  Add this public key to GitHub (Settings → SSH and GPG keys):"
@@ -176,8 +177,12 @@ if [[ -f "$HOME/.ssh/id_ed25519.pub" ]]; then
   PUB_KEY=$(cat "$HOME/.ssh/id_ed25519.pub")
   ALLOWED_SIGNERS="$HOME/.ssh/allowed_signers"
   if ! grep -qF "$PUB_KEY" "$ALLOWED_SIGNERS" 2>/dev/null; then
-    echo "$git_email namespaces=\"git\" $PUB_KEY" >> "$ALLOWED_SIGNERS"
-    echo "  Added key to ~/.ssh/allowed_signers"
+    if [[ -z "$git_email" ]]; then
+      echo "  Warning: git email is not set; skipping allowed_signers entry."
+    else
+      echo "$git_email namespaces=\"git\" $PUB_KEY" >> "$ALLOWED_SIGNERS"
+      echo "  Added key to ~/.ssh/allowed_signers"
+    fi
   else
     echo "  Key already in ~/.ssh/allowed_signers – skipping."
   fi
