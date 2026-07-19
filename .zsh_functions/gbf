@@ -23,9 +23,15 @@ function gbf {
 		--format='%(color:yellow)%(committerdate:relative)%(color:reset) %09 %(color:reset)%(if)%(HEAD)%(then)%(color:green)%(end) %(HEAD) %(refname:short)' |
 		fzf \
 			--ansi \
-			--header "$current_dir_name git branches | enter checkout branch, ctrl-o open preview, ctrl-f preview down, ctrl-b preview up" \
+			--header "$current_dir_name git branches | enter checkout branch, ctrl-o open preview, ctrl-g open on GitHub, ctrl-f preview down, ctrl-b preview up" \
 			--bind "ctrl-f:preview-page-down,ctrl-b:preview-page-up" \
 			--bind "ctrl-o:execute:$eval($git_log_format)" \
+			--bind "ctrl-g:execute-silent:(
+				branch=\$(echo {} | awk '{print \$NF}')
+				remote_url=\$(git config --get remote.origin.url)
+				repo_url=\$(echo \"\$remote_url\" | sed -E 's#^git@([^:]+):#https://\1/#; s#\.git\$##')
+				open \"\$repo_url/tree/\$branch\"
+			)" \
 			--preview="$git_log_format -50 \$(echo {} | awk '{print \$NF}')" \
 			--accept-nth="-1" |
 		xargs git checkout
