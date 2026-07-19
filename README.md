@@ -510,13 +510,41 @@ Available examples
 
 | Function     | Description                                                                                |
 | ------------ | ------------------------------------------------------------------------------------------ |
+| app-icons    | Generate PWA assets from source images (icons, favicons, splash screens)                   |
 | cde          | Fuzzy find and git projects in `~/git` and open the project in your $VISUAL > $EDITOR > vi |
 | cdp          | Fuzzy find and git projects in `~/git` and cd into it                                      |
 | compare_urls | Compare the JSON output of two different URLs                                              |
 | gbf          | Show all local git branches and checkout the selected one                                  |
 | glg          | Git log with a nice preview of the diff from the commit                                    |
+| gsl          | Show all git stashes and apply, pop, or drop the selected one                              |
 | myip         | Print your local IP address                                                                |
 | npmr         | Fuzzy find npm scripts in your current project                                             |
+
+![divider](./docs/images/divider-space-op.png)
+
+### `app-icons`
+
+Generate PWA assets from source images including standard icons, favicons, Apple touch icons, maskable icons, and social share images.
+
+Function definition see [.zsh_functions/app-icons](./.zsh_functions/app-icons).
+
+Dependencies:
+
+- ImageMagick (convert)
+
+Usage:
+
+```bash
+app-icons
+```
+
+This function generates:
+- PWA icons (48x48 to 512x512)
+- Apple Touch Icon (180x180)
+- Maskable icons with safe zone padding
+- Favicons (16x16, 32x32, and favicon.ico)
+- OpenGraph and Twitter card images
+- iOS splash screen (1125x2436)
 
 ![divider](./docs/images/divider-space-op.png)
 
@@ -591,7 +619,7 @@ npmr
 
 ### `gbf` – [g]it [b]ranch [f]ind
 
-Show all git branches and checkout the selected one
+Show all git branches and checkout the selected one.
 
 Function definition see [.zsh_functions/gbf](./.zsh_functions/gbf).
 
@@ -609,11 +637,18 @@ Usage:
 gbf
 ```
 
+Keybindings:
+
+- `enter` – checkout selected branch
+- `ctrl-o` – open preview of branch commits
+- `ctrl-g` – open the branch on GitHub
+- `ctrl-f` / `ctrl-b` – page down/up in preview
+
 ![divider](./docs/images/divider-space-op.png)
 
 ### `glg` – [g]it [l]og [g]raph
 
-Git log with a nice preview of the diff from the commit
+Git log with a nice preview of the diff from the commit.
 
 From https://github.com/exosyphon/dotfiles/blob/main/scripts/fshow.sh
 
@@ -624,12 +659,48 @@ Function definition see [.zsh_functions/glg](./.zsh_functions/glg).
 Dependencies:
 
 - fzf
+- delta
 
 Usage:
 
 ```bash
 glg
 ```
+
+Keybindings:
+
+- `enter` – checkout selected commit
+- `ctrl-o` – open full diff preview in less
+- `ctrl-y` – copy commit hash to clipboard
+- `ctrl-r` – revert the selected commit
+- `ctrl-f` / `ctrl-b` – page down/up in preview
+
+![divider](./docs/images/divider-space-op.png)
+
+### `gsl` – [g]it [s]tash [l]ist
+
+Show all git stashes with a nice preview of the changes. Apply, pop, or drop stashes interactively.
+
+Function definition see [.zsh_functions/gsl](./.zsh_functions/gsl).
+
+Dependencies:
+
+- fzf
+- delta
+
+Usage:
+
+```bash
+gsl
+```
+
+Keybindings:
+
+- `enter` – apply the selected stash
+- `ctrl-p` – pop the selected stash
+- `ctrl-d` – drop the selected stash
+- `ctrl-o` – open full diff preview in less
+- `ctrl-f` / `ctrl-b` – page down/up in preview
 
 ![divider](./docs/images/divider-space-op.png)
 
