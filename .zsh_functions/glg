@@ -31,7 +31,7 @@ function glg {
 			--bind "ctrl-f:preview-page-down,ctrl-b:preview-page-up" \
 			--bind "enter:become:(echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs git checkout)" \
 			--bind "ctrl-y:execute-silent:(echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | pbcopy)" \
-			--bind "ctrl-r:become:(echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs git revert --no-edit)" \
+			--bind "ctrl-r:become:(h=\$(echo {} | grep -o '[a-f0-9]\{7\}' | head -1); git rev-parse -q --verify \$h^2 >/dev/null 2>&1 && git revert --no-edit -m 1 \$h || git revert --no-edit \$h)" \
 			--bind "ctrl-o:execute:
                 (grep -o '[a-f0-9]\{7\}' | head -1 |
                 xargs -I % sh -c 'git show % | delta --dark | less -R') << 'FZF-EOF'
