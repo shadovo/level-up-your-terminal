@@ -31,8 +31,7 @@ Over the past year, I’ve explored various tools, plugins, and configurations t
   - [`compare_urls` – compare JSON output from URLs](#compare_urls)
 - [Git config](#git-config)
 - [Vim config](#vim-config)
-- [Great built-in tools](#great-built-in-tools)  
-
+- [Great built-in tools](#great-built-in-tools)
 
 ![divider](./docs/images/divider-space-op.png)
 
@@ -650,7 +649,7 @@ Keybindings:
 
 Git log with a nice preview of the diff from the commit.
 
-From https://github.com/exosyphon/dotfiles/blob/main/scripts/fshow.sh
+From <https://github.com/exosyphon/dotfiles/blob/main/scripts/fshow.sh>
 
 Function definition see [.zsh_functions/glg](./.zsh_functions/glg).
 
@@ -777,7 +776,7 @@ See the [Vim Configuration](./vim-configuration.md) file for details.
 Here is a list of other built in tools that can be really useful.
 Check them out with the `tldr` command to learn more about each.
 
-### File Processing:
+### File Processing
 
 - awk
 - sed
@@ -786,12 +785,12 @@ Check them out with the `tldr` command to learn more about each.
 - cut
 - sort
 
-### Networking & HTTP:
+### Networking & HTTP
 
 - curl
 - tee
 
-### Diff & Text Comparison:
+### Diff & Text Comparison
 
 - diff
 - uniq
