@@ -9,6 +9,7 @@
 # Dependencies:
 # - fzf
 # - git
+# - delta
 #
 # Usage:
 #
@@ -23,14 +24,17 @@ function glg {
 	echo -ne "\e]2;$current_dir_name ($current_branch): git log \a"
 
 	git log --graph --color=always --format="%C(auto)%h%d %s %C(blue)%C(bold)%cr" "$@" |
-		fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort --preview \
-			'f() { set -- $(echo -- "$@" | grep -o "[a-f0-9]\{7\}"); [ $# -eq 0 ] || git show --color=always $1 ; }; f {}' \
-			--header "$current_dir_name ($current_branch) commits | enter checkout commit, ctrl-o open preview, ctrl-f preview down, ctrl-b preview up" \
+		fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+			--preview \
+			'f() { set -- $(echo -- "$@" | grep -o "[a-f0-9]\{7\}"); [ $# -eq 0 ] || git show $1 | delta --dark; }; f {}' \
+			--header "$current_dir_name ($current_branch) commits | enter checkout, ctrl-o open preview, ctrl-y copy hash, ctrl-r revert, ctrl-f preview down, ctrl-b preview up" \
 			--bind "ctrl-f:preview-page-down,ctrl-b:preview-page-up" \
 			--bind "enter:become:(echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs git checkout)" \
+			--bind "ctrl-y:execute-silent:(echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | pbcopy)" \
+			--bind "ctrl-r:become:(echo {} | grep -o '[a-f0-9]\{7\}' | head -1 | xargs git revert --no-edit)" \
 			--bind "ctrl-o:execute:
                 (grep -o '[a-f0-9]\{7\}' | head -1 |
-                xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                xargs -I % sh -c 'git show % | delta --dark | less -R') << 'FZF-EOF'
                 {}
 FZF-EOF" --preview-window=right:40%
 }
