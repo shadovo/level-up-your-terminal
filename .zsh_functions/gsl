@@ -1,0 +1,37 @@
+#!/usr/bin/env zsh
+
+# [g]it [s]tash [l]ist – Show all git stashes and apply/pop/drop the selected one
+#
+# Dependencies:
+# - fzf
+# - git
+# - delta
+#
+# Usage:
+#
+# ```bash
+# gsl
+# ```
+#
+
+function gsl {
+	local current_dir_name=$(basename "$PWD")
+	local current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+	echo -ne "\e]2;$current_dir_name ($current_branch): git stash \a"
+
+	git stash list --color=always \
+		--format="%C(yellow)%gd%Creset %C(white)%s%Creset %C(bold blue)%cr%Creset" |
+		fzf --ansi --no-sort --reverse \
+			--header "$current_dir_name ($current_branch) stashes | enter apply, ctrl-p pop, ctrl-d drop, ctrl-o open preview, ctrl-f preview down, ctrl-b preview up" \
+			--bind "ctrl-f:preview-page-down,ctrl-b:preview-page-up" \
+			--preview "git stash show -p \$(echo {} | grep -o 'stash@{[0-9]*}') | delta --color-only --dark" \
+			--preview-window=right:50% \
+			--bind "ctrl-o:execute:
+				(grep -o 'stash@{[0-9]*}' |
+				xargs -I % sh -c 'git stash show -p % | delta --dark | less -R') << 'FZF-EOF'
+				{}
+FZF-EOF" \
+			--bind "enter:become:(echo {} | grep -o 'stash@{[0-9]*}' | xargs git stash apply)" \
+			--bind "ctrl-p:become:(echo {} | grep -o 'stash@{[0-9]*}' | xargs git stash pop)" \
+			--bind "ctrl-d:become:(echo {} | grep -o 'stash@{[0-9]*}' | xargs git stash drop)"
+}
